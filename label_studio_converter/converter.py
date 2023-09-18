@@ -1078,6 +1078,8 @@ class Converter(object):
         category_name_to_id = dict()
 
         for name, info in self._schema.items():
+            if name not in self._output_tags:
+                continue
             labels |= set(info['labels'])
             attrs = info['labels_attrs']
             for label in attrs:
@@ -1098,3 +1100,4 @@ class Converter(object):
             while idx in list(category_name_to_id.values()):
                 idx += 1
         return categories, category_name_to_id
+
