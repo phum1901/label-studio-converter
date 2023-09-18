@@ -139,6 +139,7 @@ def download(
     return_relative_path=False,
     upload_dir=None,
     download_resources=True,
+    # root_dir=None,
 ):
     is_local_file = url.startswith('/data/') and '?d=' in url
     is_uploaded_file = url.startswith('/data/upload')
@@ -163,7 +164,8 @@ def download(
     if is_local_file:
         filename, dir_path = url.split('/data/', 1)[-1].split('?d=')
         dir_path = str(urllib.parse.unquote(dir_path))
-        filepath = os.path.join(LOCAL_FILES_DOCUMENT_ROOT, dir_path)
+        root_dir = project_dir if project_dir is not None else LOCAL_FILES_DOCUMENT_ROOT
+        filepath = os.path.join(root_dir, dir_path)
         if not os.path.exists(filepath):
             raise FileNotFoundError(filepath)
         if download_resources:
